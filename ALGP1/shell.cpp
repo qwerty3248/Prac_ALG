@@ -49,6 +49,7 @@ int main(int argc, char *argv[]) {
 
 		t0= std::chrono::high_resolution_clock::now(); // Cogemos el tiempo en que comienza la ejecuci€n del algoritmo
 		shellSort(v, n); // Ejecutamos el algoritmo para tama“o de caso tam
+		//shell(v,n);
 		tf= std::chrono::high_resolution_clock::now(); // Cogemos el tiempo en que finaliza la ejecuci€n del algoritmo
 
 		unsigned long tejecucion= std::chrono::duration_cast<std::chrono::microseconds>(tf - t0).count();
@@ -76,7 +77,8 @@ void shellSort(int *arr, int n) {
         for (int i = gap; i < n; i++) {
             int temp = arr[i];
             int j;
-            // Mover los elementos de arr[0..i-gap], arr[1..i-gap+1], ... arr[i-gap] que son mayores que temp
+            // Mover los elementos de arr[0..i-gap], arr[1..i-gap+1], ... arr[i-gap] que son  
+            //mayores que temp
             // hacia adelante para abrir espacio para temp
             for (j = i; j >= gap && arr[j - gap] > temp; j -= gap) {
                 arr[j] = arr[j - gap];
@@ -86,3 +88,33 @@ void shellSort(int *arr, int n) {
         }
     }
 }
+
+//Este shell no funciona
+void shell (int *arr, int n){
+	int  intervalo,i,valorAInsertar,posicionActual;
+	for (intervalo = n/2; intervalo > 0; intervalo/=2){
+		for (i=intervalo; i<n; i++){
+			valorAInsertar = arr[i];
+			posicionActual = i;
+			
+			
+			while(posicionActual > 0 && 
+			      arr[posicionActual-intervalo] > valorAInsertar){
+			      
+			      arr[posicionActual] = arr[posicionActual-intervalo];
+			      posicionActual = posicionActual - intervalo;
+			      
+			      
+			      }
+			      
+			if (posicionActual != i){
+				arr[posicionActual] = valorAInsertar;
+			
+			}      
+		
+		}
+	}
+
+
+}
+
