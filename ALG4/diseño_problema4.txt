@@ -1,0 +1,110 @@
+
+Solución parcial: Los caminos que se vayan generando que todavia son posibles
+caminos
+
+Función poda: Mi funcion de poda me va a indicar si hay salida por el camino 
+que he tomado para salir del laberinto en este caso seria 
+EncotrarSalidaLaberinto.
+
+Restricciones explícitas: Cada componente del camino tiene que estar contenido
+en un camino sin muros ademas de en el laberinto.
+
+Restricciones implícitas: Que las componentes formen un camino entre si que 
+lleven a la salida
+
+Estados solución: Todos los caminos los cuales lleven a una salida 
+
+
+
+
+--Diseño del problema (Recursivo), primeraLLamada backtracking(x,1)--
+Vamos a suponer que queremos sacar todas las soluciones posibles al problema
+
+-Tenemos que (x1,x2,...,xi) es un camino desde la raiz hasta un nodo del arbol
+de estados
+
+-T(x1,x2,...,xk-1) es el conjunto de todos los valores posibles de xk tal que 
+(x1,x2,...,xk-1.xk) es un camino valido hasta un estado del problema.
+
+-Funcion de cota, Bk(x1,x2,...,xk) es falso para un camino (x1,x2,...,xk) que no
+puede extenderse para alcanzar una solucion, es decir, nos dice si el camino 
+satisface las restricciones explicitas.
+
+-X(x1,x2,...,xn) son los valores que estan en (x1,x2,...,xk-1) que cumplen
+la funcion Bk
+
+proccedure backtracking (x[1..n], k)
+{
+	for each(x[k] ∈ T(x[1..k-1]))
+	{
+	
+		if(Bk(x[1..k]))
+		{
+			if (x[1..k] es un camino hacia un nodo respuesta)
+				print();//Soluciones x[1..k]
+			
+			backtracking(x,k+1);
+		}
+	
+	
+	
+	}
+
+}
+
+--Pseudocodigo--
+
+function esValida(fila,columna laberinto)
+	
+	return fila >= 0 && fila < TAM_LABERINTO && columna >= 0 &&
+	        columna < TAM_LABERINTO && laberinto[fila][columna] == 0
+
+end function
+
+
+function EncontrarSalidaLaberinto(pos_actual,salida,laberinto,camino)
+
+	if pos_actual == salida then
+		aniade pos_actual a camino
+		return true
+		
+	endif
+	
+	fila = primera_componente_de_pos_actual
+	columna = segunda_componente_de_pos_actual
+	
+	laberinto[fila][columna] = MARCA_AVANCE
+	
+	filas = {-1,1,0,0}
+	columnas = {0,0,-1,1}
+	
+	
+	for i=0 each i < 4 then
+		nueva_fil = fila + filas[i]
+		nueva_col = columna + columnas[i]
+		
+		if esValida(nueva_fil,nueva_col,laberinto) then
+			añiade pos_actual a camino
+			if EncontrarSalidaLaberinto({nueva_fil,nueva_col},
+			                             salida, laberinto,
+			                             camino) then
+			   return true                          
+			
+			endif
+			
+			retroceder en camino
+		
+		endif
+	
+	endfor
+	
+	laberinto[fila][columna]=0
+	return false
+
+end function
+
+
+
+
+
+
